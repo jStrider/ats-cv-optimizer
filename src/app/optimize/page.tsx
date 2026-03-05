@@ -18,7 +18,9 @@ import {
   Sparkles,
   AlertCircle,
   ChevronLeft,
+  Play,
 } from "lucide-react";
+import { examples } from "@/lib/examples";
 
 type Step = "input" | "analysis" | "optimized";
 
@@ -141,11 +143,46 @@ export default function OptimizePage() {
       {/* Step 1: Input */}
       {step === "input" && (
         <div className="grid gap-6 md:grid-cols-2">
+          {/* Examples */}
+          <Card className="md:col-span-2">
+            <CardHeader>
+              <CardTitle className="text-lg">🚀 Essayer avec un exemple</CardTitle>
+              <CardDescription>
+                Cliquez sur un exemple pour pré-remplir l&apos;offre et le CV, puis lancez l&apos;analyse
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3 sm:grid-cols-3">
+                {examples.map((ex) => (
+                  <button
+                    key={ex.id}
+                    onClick={() => {
+                      setJobOffer(ex.jobOffer);
+                      setCvText(ex.cvText);
+                      setFileName(null);
+                      setError(null);
+                    }}
+                    className={`group flex items-center gap-3 rounded-lg border p-4 text-left transition-all hover:border-primary/50 hover:bg-primary/5 ${
+                      jobOffer === ex.jobOffer ? "border-primary bg-primary/10" : "border-border"
+                    }`}
+                  >
+                    <span className="text-2xl">{ex.emoji}</span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium truncate">{ex.title}</p>
+                      <p className="text-xs text-muted-foreground">CV volontairement faible → score bas</p>
+                    </div>
+                    <Play className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-primary" />
+                  </button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle className="text-lg">Offre d&apos;emploi</CardTitle>
               <CardDescription>
-                Collez le texte de l&apos;offre d&apos;emploi visee
+                Collez le texte de l&apos;offre d&apos;emploi visée
               </CardDescription>
             </CardHeader>
             <CardContent>
